@@ -28,33 +28,6 @@ export default class Store {
         return this.user
     }
 
-    async login({username, password}) {
-        try {
-            const response = await AuthService.login(username, password);
-            localStorage.setItem('refreshToken', response.data.refresh)
-            localStorage.setItem('accessToken', response.data.access)
-            localStorage.setItem('user', JSON.stringify({...response.data.user, ...response.data.profile}))
-            this.setAuth(true)
-            this.setUser({...response.data.user, ...response.data.profile})
-        } catch (e) {
-            return {error: e}
-        }
-    }
-
-    async registration(data) {
-        try {
-            const response = await AuthService.registration(data);
-            console.log(response)
-            const userInfo = {...response.data.user, ...response.data.profile_user};
-            localStorage.setItem('refreshToken', response.data.refresh);
-            localStorage.setItem('accessToken', response.data.access);
-            localStorage.setItem('user', JSON.stringify(userInfo));
-            this.setAuth(true);
-            this.setUser(userInfo);
-        } catch (e) {
-            return {error: e}
-        }
-    }
     
     async checkAuth() {
         this.setLoading(true);

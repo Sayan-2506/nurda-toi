@@ -6,10 +6,10 @@ import { Front } from "./components";
 import Info from "./components/Info";
 import Program from "./components/Program";
 import DresCode from "./components/DresCode";
-import Countdown from "./components/countdown/Countdown";
 import Form from "./components/Form";
 import PartyImage from "./components/PartyImage";
 import CountDown from "./components/countdown/Countdown";
+import Footer from "./components/footer";
 
 function App() {
   const { store } = useContext(Context);
@@ -29,6 +29,7 @@ function App() {
       <CountDown timeTillDate="08 15 2023, 13:00 p" timeFormat="MM DD YYYY, h:mm p" />
       <Form />
       <PartyImage />
+      <Footer />
     </div>
   );
 }

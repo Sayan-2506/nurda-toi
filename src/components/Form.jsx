@@ -1,24 +1,23 @@
 import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
-import { Context } from '../index';
+import { Context } from "../index";
 import { message } from "antd";
 import Spinner from "./Spinner";
-
+import { runFireworks } from "./ball/runFireworks";
 
 const Form = () => {
   const [name, setName] = useState("");
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState("");
   const { store } = useContext(Context);
   const [loading, setLoading] = useState(false);
 
   const success = () => {
-    message.success('Рахмет!');
+    message.success("Рахмет!");
   };
 
   const error = () => {
-    message.error('Осындай есіммен қонақ бар!');
+    message.error("Осындай есіммен қонақ бар!");
   };
-
 
   const textAnimation = {
     hidden: {
@@ -36,31 +35,44 @@ const Form = () => {
     setSelectedOption(event.target.value);
   };
 
-
   const sendData = (event) => {
     event.preventDefault();
     let data = new FormData();
-    if(name && selectedOption) {
-        data.append('name', name);
-        data.append(selectedOption, true);
-        setLoading(true);
-        store.ComePeople({name: data.get('name'), [selectedOption]: true})
+    const moment = require("moment");
+    require("moment-timezone");
+
+    const timezone = "Asia/Almaty";
+    const currentTime = moment()
+      .tz(timezone)
+      .format("YYYY-MM-DDTHH:mm:ss.SSSSSSZ");
+    if (name && selectedOption) {
+      data.append("name", name);
+      data.append(selectedOption, true);
+      setLoading(true);
+      store
+        .ComePeople({
+          name: data.get("name"),
+          [selectedOption]: true,
+          WeddingName: 5,
+          created_at: currentTime,
+        })
         .then((result) => {
           setLoading(false);
           if (result?.error) {
             error();
           } else if (result?.success) {
+            runFireworks();
             success();
           }
-        })
+        });
     }
-  }
+  };
 
   return (
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ amount: 0.5, once: true }}
+      viewport={{ amount: 0.8, once: true }}
       className="m-auto mt-20 px-8 w-full max-w-[600px] h-full flex flex-col text-slate-700"
     >
       <motion.h3
@@ -79,7 +91,7 @@ const Form = () => {
             id="floating_name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
           />
@@ -100,7 +112,7 @@ const Form = () => {
               name="countries"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
               value="coming"
-              checked={selectedOption === 'coming'}
+              checked={selectedOption === "coming"}
               onChange={handleOptionChange}
               required
             />
@@ -108,7 +120,7 @@ const Form = () => {
               custom={1}
               variants={textAnimation}
               for="country-option-1"
-              className="block ml-2 text-sm font-medium dark:text-gray-500"
+              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-400"
             >
               Келемін, бұйырса
             </motion.label>
@@ -123,7 +135,7 @@ const Form = () => {
               name="countries"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
               value="spouse"
-              checked={selectedOption === 'spouse'}
+              checked={selectedOption === "spouse"}
               onChange={handleOptionChange}
               required
             />
@@ -131,7 +143,7 @@ const Form = () => {
               custom={2}
               variants={textAnimation}
               for="country-option-2"
-              className="block ml-2 text-sm font-medium dark:text-gray-500"
+              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-400"
             >
               Жұбайыммен барамын
             </motion.label>
@@ -146,7 +158,7 @@ const Form = () => {
               name="countries"
               className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
               value="I_cant_come"
-              checked={selectedOption === 'I_cant_come'}
+              checked={selectedOption === "I_cant_come"}
               onChange={handleOptionChange}
               required
             />
@@ -154,7 +166,7 @@ const Form = () => {
               custom={3}
               variants={textAnimation}
               for="country-option-3"
-              className="block ml-2 text-sm font-medium dark:text-gray-500"
+              className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-400"
             >
               Өкінішке орай, келе алмаймын
             </motion.label>
