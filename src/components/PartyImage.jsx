@@ -5,7 +5,7 @@ const PartyImage = () => {
   return (
     <div className="m-auto mt-12 px-8 w-full max-w-[600px] h-full flex flex-col text-center text-slate-700 items-center">
       <a
-        href="https://t.me/+TWJqoTXVRURiNWRi"
+        href="https://t.me/+NTonFpNXNIRiOWYy"
         target="_blank"
         without
         rel="noreferrer"
