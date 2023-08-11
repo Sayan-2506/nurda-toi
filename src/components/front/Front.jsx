@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./front.css";
 import { motion } from "framer-motion";
 import frontart from "../../assets/nurda.jpg";
-import frontvideo from "../../assets/front-video.mp4";
+// import frontvideo from "../../assets/front-video.mp4";
 import play from "../../assets/play.svg";
 import pause from "../../assets/pause.svg";
 import sound from "../../assets/music4.mp3";
