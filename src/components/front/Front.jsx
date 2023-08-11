@@ -48,15 +48,6 @@ const Front = () => {
       viewport={{ once: true }}
       className="w-full relative"
     >
-      {/* <video
-        autoPlay
-        loop
-        muted
-        poster="https://assets.codepen.io/6093409/river.jpg"
-        className="w-full h-[70vh] object-cover rounded-b-[150px] floating-image"
-      >
-        <source src={frontvideo} type="video/mp4" />
-      </video> */}
       <img
         src={frontart}
         alt="frontartImg"
