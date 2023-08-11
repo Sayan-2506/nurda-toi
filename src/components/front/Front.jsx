@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./front.css";
 import { motion } from "framer-motion";
-import frontart from "../../assets/nurda.jpg";
-
+import frontart from "../../assets/art1.png";
+import frontvideo from "../../assets/front-video.mp4";
 import play from "../../assets/play.svg";
 import pause from "../../assets/pause.svg";
 import sound from "../../assets/music4.mp3";
@@ -48,11 +48,20 @@ const Front = () => {
       viewport={{ once: true }}
       className="w-full relative"
     >
-      <img
+      <video
+        autoPlay
+        loop
+        muted
+        // poster="https://assets.codepen.io/6093409/river.jpg"
+        className="w-full h-[70vh] object-cover rounded-b-[150px] floating-image"
+      >
+        <source src={frontvideo} type="video/mp4" />
+      </video>
+      {/* <img
         src={frontart}
         alt="frontartImg"
         className="w-full h-[70vh] object-cover rounded-b-[150px] floating-image bg-gradient-to-r p-[3px] from-[#db2777] to-[#9333EA]"
-      />
+      /> */}
       <div className="bird"></div>
       <button
         className="btn-play player__btn-play player"
