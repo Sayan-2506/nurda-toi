@@ -29,7 +29,7 @@ function App() {
       <CountDown timeTillDate="08 15 2023, 13:00 p" timeFormat="MM DD YYYY, h:mm p" />
       <Form />
       <PartyImage />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
