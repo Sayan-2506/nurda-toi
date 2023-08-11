@@ -2,7 +2,7 @@ import React from "react";
 import whatsappImg from "../assets/whatsapp.png";
 import instaImg from "../assets/insta.png";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <div className="m-auto mt-20 px-8 py-3 w-full max-w-[600px] h-26 bg-slate-400 flex flex-col text-center text-slate-700">
       <div className="text-xs font-medium text-gray-50">@made by toiga_sait_shakirtu</div>
@@ -28,4 +28,3 @@ const Footer = () => {
   );
 };
 
-export default Footer;

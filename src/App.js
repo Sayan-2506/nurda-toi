@@ -9,7 +9,7 @@ import DresCode from "./components/DresCode";
 import Form from "./components/Form";
 import PartyImage from "./components/PartyImage";
 import CountDown from "./components/countdown/Countdown";
-import Footer from "./components";
+import { Footer } from "./components/Footer";
 
 function App() {
   const { store } = useContext(Context);
