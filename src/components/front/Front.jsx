@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./front.css";
 import { motion } from "framer-motion";
-import frontart from "../../assets/art1.png";
-import frontvideo from "../../assets/front-video.mp4";
+
 import play from "../../assets/play.svg";
 import pause from "../../assets/pause.svg";
 import sound from "../../assets/music4.mp3";
@@ -48,15 +47,7 @@ const Front = () => {
       viewport={{ once: true }}
       className="w-full relative"
     >
-      <video
-        autoPlay
-        loop
-        muted
-        // poster="https://assets.codepen.io/6093409/river.jpg"
-        className="w-full h-[70vh] object-cover rounded-b-[150px] floating-image"
-      >
-        <source src={frontvideo} type="video/mp4" />
-      </video>
+
       {/* <img
         src={frontart}
         alt="frontartImg"
