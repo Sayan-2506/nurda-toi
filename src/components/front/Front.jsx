@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Context } from "../..";
 import "./front.css";
 import { motion } from "framer-motion";
 import frontart from "../../assets/nurda.jpg";
@@ -8,6 +9,18 @@ import pause from "../../assets/pause.svg";
 import sound from "../../assets/music4.mp3";
 
 const Front = () => {
+  const { store } = useContext(Context);
+  const [info, setInfo] = useState();
+
+  useEffect(() => {
+    store
+      .getDetail()
+      .then((data) => {
+        setInfo(data);
+      })
+      .catch((e) => console.log(e));
+  }, []);
+
   const textAnimation = {
     hidden: {
       x: -100,
@@ -20,10 +33,10 @@ const Front = () => {
     }),
   };
 
-  const [isPlaying, setIsPlaying] = useState(false); // Состояние для отслеживания состояния воспроизведения
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    const audio = new Audio(sound);
+    const audio = new Audio(info && info.music);
     audio.loop = true;
 
     if (isPlaying) {
@@ -84,7 +97,7 @@ const Front = () => {
           custom={2}
           variants={textAnimation}
         >
-          Нұрдаулет пен Ләйләнің
+          {info ? info.name : ""}
         </motion.h2>
         <motion.p
           className="font-medium text-xs max-w-[280px] m-auto"

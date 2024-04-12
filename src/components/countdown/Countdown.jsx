@@ -1,5 +1,5 @@
-import React from "react";
-import moment from "moment";
+import React, { useState, useEffect } from "react";
+import moment from "moment-timezone"; // Импорт библиотеки moment-timezone
 import { motion } from "framer-motion";
 import "./countdown.scss";
 
@@ -15,108 +15,102 @@ const textAnimation = {
   }),
 };
 
-class Countdown extends React.Component {
-  state = {
+const Countdown = ({ timeTillDate, timeFormat }) => {
+  const [countdown, setCountdown] = useState({
     days: undefined,
     hours: undefined,
     minutes: undefined,
     seconds: undefined,
-  };
+  });
 
-  componentDidMount() {
-    this.interval = setInterval(() => {
-      const { timeTillDate, timeFormat } = this.props;
-      const then = moment(timeTillDate, timeFormat);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const then = moment.tz(timeTillDate, "Asia/Almaty"); // Указываем временную зону Астаны
       const now = moment();
-      const countdown = moment(then - now);
-      const days = countdown.format("D");
-      const hours = countdown.format("HH");
-      const minutes = countdown.format("mm");
-      const seconds = countdown.format("ss");
+      const diff = moment.duration(then.diff(now));
+      const days = diff.days();
+      const hours = diff.hours();
+      const minutes = diff.minutes();
+      const seconds = diff.seconds();
 
-      this.setState({ days, hours, minutes, seconds });
+      setCountdown({ days, hours, minutes, seconds });
     }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timeTillDate, timeFormat]);
+
+  if (!countdown.seconds) {
+    return null;
   }
 
-  componentWillUnmount() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
-  }
-
-  render() {
-    const { days, hours, minutes, seconds } = this.state;
-
-    // Mapping the date values to radius values
-    const daysRadius = mapNumber(days, 30, 0, 0, 360);
-    const hoursRadius = mapNumber(hours, 24, 0, 0, 360);
-    const minutesRadius = mapNumber(minutes, 60, 0, 0, 360);
-    const secondsRadius = mapNumber(seconds, 60, 0, 0, 360);
-
-    if (!seconds) {
-      return null;
-    }
-
-    return (
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        className="m-auto mt-20 px-8 w-full max-w-[600px] h-full flex flex-col text-center text-slate-700"
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      className="m-auto mt-20 px-8 w-full max-w-[600px] h-full flex flex-col text-center text-slate-700"
+    >
+      <motion.h3
+        custom={1}
+        variants={textAnimation}
+        className="text-base font-medium mb-6"
       >
-        <motion.h3
-          custom={1}
-          variants={textAnimation}
-          className="text-base font-medium mb-6"
-        >
-          Тойдың басталуына:
-        </motion.h3>
-        <div className="countdown-wrapper">
-          {days && (
-            <div className="countdown-item">
-              <SVGCircle radius={daysRadius} />
-              {days}
-              <span>күн</span>
-            </div>
-          )}
-          {hours && (
-            <div className="countdown-item">
-              <SVGCircle radius={hoursRadius} />
-              {hours}
-              <span>сағат</span>
-            </div>
-          )}
-          {minutes && (
-            <div className="countdown-item">
-              <SVGCircle radius={minutesRadius} />
-              {minutes}
-              <span>минут</span>
-            </div>
-          )}
-          {seconds && (
-            <div className="countdown-item">
-              <SVGCircle radius={secondsRadius} />
-              {seconds}
-              <span>секунд</span>
-            </div>
-          )}
-        </div>
-      </motion.div>
-    );
-  }
-}
+        Тойдың басталуына:
+      </motion.h3>
+      <div className="countdown-wrapper">
+        {Object.keys(countdown).map((key) => {
+          if (countdown[key] !== undefined) {
+            return (
+              <CountdownItem
+                key={key}
+                value={countdown[key]}
+                unit={
+                  key === "days"
+                    ? "күн"
+                    : key === "hours"
+                    ? "сағат"
+                    : key === "minutes"
+                    ? "минут"
+                    : "секунд"
+                }
+              />
+            );
+          }
+          return null;
+        })}
+      </div>
+    </motion.div>
+  );
+};
+
+const CountdownItem = ({ value, unit }) => {
+  const radius = mapNumber(
+    value,
+    unit === "күн" ? 0 : unit === "сағат" ? 24 : 60,
+    0,
+    0,
+    360
+  );
+
+  return (
+    <div className="countdown-item">
+      <SVGCircle radius={radius} />
+      <p>{value}</p>
+      <span>{unit}</span>
+    </div>
+  );
+};
 
 const SVGCircle = ({ radius }) => (
   <svg className="countdown-svg">
     <path
       fill="none"
       stroke="#333"
-      strokeWidth="4"
+      strokeWidth="2"
       d={describeArc(50, 50, 40, 0, radius)}
     />
   </svg>
 );
-
 
 function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
   var angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;

@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import Store from "./store/store";
 
 import App from "./App";
@@ -11,7 +11,7 @@ export const Context = createContext({
   store,
 });
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Context.Provider

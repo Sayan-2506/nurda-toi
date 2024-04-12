@@ -1,9 +1,48 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Context } from "..";
 import { motion } from "framer-motion";
 import insta from "../assets/insta.png";
 import togis from "../assets/togis.png";
 
 const Info = () => {
+  const { store } = useContext(Context);
+  const [info, setInfo] = useState();
+  const [personData, setPersonData] = useState({
+    hostsWedding: "",
+    weddingDate: "",
+    weddingTime: "",
+    nameRest: "",
+    address: "",
+  });
+
+  useEffect(() => {
+    store
+      .getDetail()
+      .then((data) => {
+        setInfo(data);
+      })
+      .catch((e) => console.log(e));
+  }, []);
+
+  useEffect(() => {
+    if (info) {
+      const dateOnly = info.WeddingDate.split(" ")[0];
+      const parts = dateOnly.split("-");
+      const formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
+
+      const dateTime = info.WeddingDate.split(" ")[1];
+
+      setPersonData({
+        hostsWedding: info.hosts_wedding,
+        weddingDate: formattedDate,
+        weddingTime: dateTime,
+        nameRest: info.name_rest,
+        address: info.address,
+        gisAddress: info.gis_address,
+      });
+    }
+  }, [info]);
+
   const textAnimation = {
     hidden: {
       x: -100,
@@ -40,29 +79,30 @@ const Info = () => {
         variants={textAnimation}
         className="text-2xl text-yellow-600 mb-5 font-vivaldi"
       >
-        Ғалымжан - Ақнұр
+        {personData.hostsWedding ? personData.hostsWedding : ""}
       </motion.h2>
       <motion.h2
         custom={2}
         variants={textAnimation}
         className="text-2xl text-yellow-600 font-snell"
       >
-        16.08.2023
+        {personData.weddingDate}
       </motion.h2>
-      <h3 className="text-base uppercase mb-5">Сағат 19:00 де</h3>
+      <h3 className="text-base uppercase mb-5">
+        Басталу уақыты {personData.weddingTime}
+      </h3>
       <motion.h2
         custom={3}
         variants={textAnimation}
         className="text-2xl text-yellow-600 font-snell"
       >
-        Шах - Сарай мейрамханасы
+        {personData.nameRest} мейрамханасы
       </motion.h2>
-      <h3 className="text-base uppercase">Түркістан қаласы, ​Проспект Жибек жолы Шауелдира, 64</h3>
+      <h3 className="text-base uppercase">{personData.address}</h3>
       <div className="flex items-center justify-center gap-4 mt-5">
         <a
           href="https://instagram.com/toiga_sait_shakirtu?igshid=MzNlNGNkZWQ4Mg=="
           target="_blank"
-          without
           rel="noreferrer"
         >
           <motion.img
@@ -74,12 +114,7 @@ const Info = () => {
           />
         </a>
 
-        <a
-          href="https://go.2gis.com/maa6uv"
-          target="_blank"
-          without
-          rel="noreferrer"
-        >
+        <a href={personData.gisAddress} target="_blank" rel="noreferrer">
           <motion.img
             custom={"y"}
             variants={buttonVibrations}

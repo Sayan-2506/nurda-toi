@@ -1,4 +1,4 @@
-import { React, useContext, useEffect } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Context } from "./index";
 import "./App.css";
@@ -26,7 +26,10 @@ function App() {
       <Info />
       <Program />
       <DresCode />
-      <CountDown timeTillDate="08 15 2023, 13:00 p" timeFormat="MM DD YYYY, h:mm p" />
+      <CountDown
+        timeTillDate="2024-04-12T13:00:00"
+        timeFormat="YYYY-MM-DDTHH:mm:ss"
+      />
       <Form />
       <PartyImage />
       <Footer />

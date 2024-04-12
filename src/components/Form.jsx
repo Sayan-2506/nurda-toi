@@ -50,7 +50,7 @@ const Form = () => {
       data.append(selectedOption, true);
       setLoading(true);
       store
-        .ComePeople({
+        .comePeople({
           name: data.get("name"),
           [selectedOption]: true,
           WeddingName: 5,
@@ -96,7 +96,7 @@ const Form = () => {
             required
           />
           <label
-            for="floating_email"
+            htmlFor="floating_email"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
             Аты-жөніңізді жазыңыз
@@ -119,7 +119,7 @@ const Form = () => {
             <motion.label
               custom={1}
               variants={textAnimation}
-              for="country-option-1"
+              htmlFor="country-option-1"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-400"
             >
               Келемін, бұйырса
@@ -142,7 +142,7 @@ const Form = () => {
             <motion.label
               custom={2}
               variants={textAnimation}
-              for="country-option-2"
+              htmlFor="country-option-2"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-400"
             >
               Жұбайыммен барамын
@@ -165,7 +165,7 @@ const Form = () => {
             <motion.label
               custom={3}
               variants={textAnimation}
-              for="country-option-3"
+              htmlFor="country-option-3"
               className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-400"
             >
               Өкінішке орай, келе алмаймын
